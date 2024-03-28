@@ -335,11 +335,6 @@ int nvram_list_del(const char *key, const char *val) {
 char *nvram_get(const char *key) {
 // Some routers pass the key as the second argument, instead of the first.
 // We attempt to fix this directly in assembly for MIPS if the key is NULL.
-#if defined(mips)
-    if (!key) {
-        asm ("move %0, $a1" :"=r"(key));
-    }
-#endif
 
     return (nvram_get_buf(key, temp, BUFFER_SIZE) == E_SUCCESS) ? strndup(temp, BUFFER_SIZE) : NULL;
 }
